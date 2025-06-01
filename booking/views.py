@@ -117,3 +117,23 @@ def contact_us(request):
         else:
             return render(request, 'booking/contact_us.html', {'error': 'All fields are required.'})
     return render(request, 'booking/contact_us.html')
+
+from django.shortcuts import render
+from django.http import JsonResponse
+from .models import Reservation
+
+def calendar_view(request):
+    return render(request, 'calendar.html')
+
+def reservation_events(request):
+    reservations = Reservation.objects.all()
+    events = []
+
+    for res in reservations:
+        events.append({
+            'title': f"{res.guest_name} (Room {res.room.number})",
+            'start': res.check_in.isoformat(),
+            'end': res.check_out.isoformat(),  # FullCalendar expects ISO strings
+        })
+
+    return JsonResponse(events, safe=False)

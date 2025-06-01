@@ -42,3 +42,21 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"Booking by {self.customer.name} for {self.room} from {self.check_in} to {self.check_out}"
+
+from django.db import models
+
+class Room(models.Model):
+    number = models.CharField(max_length=10)
+    room_type = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"Room {self.number} ({self.room_type})"
+
+class Reservation(models.Model):
+    guest_name = models.CharField(max_length=100)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    check_in = models.DateField()
+    check_out = models.DateField()
+
+    def __str__(self):
+        return f"{self.guest_name} - Room {self.room.number}"

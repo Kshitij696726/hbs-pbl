@@ -14,3 +14,11 @@ urlpatterns = [
     path('my_bookings/', views.my_bookings, name='my_bookings'),
     path('contact_us/', views.contact_us, name='contact_us'),
 ]
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('calendar/', views.calendar_view, name='calendar'),
+    path('api/reservations/', views.reservation_events, name='reservation_events'),
+]
