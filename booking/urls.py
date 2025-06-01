@@ -23,3 +23,11 @@ urlpatterns = [
     path('delete-hotel/<int:hotel_id>/', views.delete_hotel, name='delete_hotel'),
     path('suggestions/', views.get_suggestions, name='get_suggestions'),
 ]
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('calendar/', views.calendar_view, name='calendar'),
+    path('api/reservations/', views.reservation_events, name='reservation_events'),
+]
