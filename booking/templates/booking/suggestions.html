@@ -1,0 +1,19 @@
+{% extends 'booking/base.html' %}
+
+{% block content %}
+<h2>AI-Based Hotel Suggestions for "{{ query }}"</h2>
+
+{% if suggestions %}
+    <ul>
+        {% for hotel in suggestions %}
+            <li>
+                <h3><a href="{% url 'booking:hotel_detail' hotel.pk %}">{{ hotel.name }}</a></h3>
+                <p>{{ hotel.description }}</p>
+                <p><strong>Location:</strong> {{ hotel.location }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No relevant hotels found for your search.</p>
+{% endif %}
+{% endblock %}
