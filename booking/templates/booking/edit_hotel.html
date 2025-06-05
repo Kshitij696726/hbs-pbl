@@ -48,8 +48,11 @@
                 <div class="text-danger">{{ form.price.errors }}</div>
             {% endif %}
         </div>
-        <button type="submit" class="btn btn-primary">Update Hotel</button>
-        <a href="{% url 'booking:management_view' %}" class="btn btn-secondary">Cancel</a>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Update Hotel</button>
+            <a href="{% url 'booking:management_view' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+        
     </form>
 </div>
 {% endblock %}

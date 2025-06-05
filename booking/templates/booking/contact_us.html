@@ -15,15 +15,15 @@
     <form method="post" novalidate>
         {% csrf_token %}
         <div class="mb-3">
-            <label for="name" class="form-label text-white">Name</label>
+            <label for="name" class="form-label text-black">Name</label>
             <input type="text" class="form-control" id="name" name="name" required aria-required="true" />
         </div>
         <div class="mb-3">
-            <label for="email" class="form-label text-white">Email</label>
+            <label for="email" class="form-label text-black">Email</label>
             <input type="email" class="form-control" id="email" name="email" required aria-required="true" />
         </div>
         <div class="mb-3">
-            <label for="message" class="form-label text-white">Message</label>
+            <label for="message" class="form-label text-black">Message</label>
             <textarea class="form-control" id="message" name="message" rows="5" required aria-required="true"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Send</button>

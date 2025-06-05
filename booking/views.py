@@ -1,3 +1,4 @@
+import spacy
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Hotel, Room, Customer, Booking
 from django.urls import reverse
@@ -31,11 +32,15 @@ def hotel_list(request):
     if min_rating:
         hotels = hotels.filter(avg_rating__gte=min_rating)
     if amenities:
-        for amenity in amenities:
-            hotels = hotels.filter(amenities__contains=amenity)
-
-    if max_price:
-        hotels = hotels.filter(rooms__price__lte=max_price).distinct()
+        # Score hotels by number of matching amenities
+        hotel_list = list(hotels)
+        scored = []
+        for hotel in hotel_list:
+            match_count = sum(amenity.lower() in [a.lower() for a in hotel.amenities] for amenity in amenities if hotel.amenities)
+            if match_count > 0:
+                scored.append((match_count, hotel))
+        scored.sort(reverse=True, key=lambda x: x[0])
+        hotels = [h[1] for h in scored]
 
     if keyword:
         # Compute embedding for keyword
@@ -345,7 +350,7 @@ def register(request):
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.conf import settings
-from google import genai
+import google.generativeai as genai
 import json
 from django.contrib.auth.decorators import login_required
 
@@ -393,3 +398,9 @@ def ai_chat(request):
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Invalid HTTP method'}, status=405)
+
+from django.shortcuts import render
+
+def add_hotel(request):
+    # You can modify this based on your form logic
+    return render(request, 'booking/add_hotel.html')

@@ -1,11 +1,14 @@
 from django.urls import path
+from django.shortcuts import render
 from . import views
 from django.contrib.auth import views as auth_views
 
 app_name = 'booking'
 
 urlpatterns = [
-    path('', views.hotel_list, name='hotel_list'),
+    path('', lambda request: render(request, 'booking/base.html'), name='welcome'),
+    path('hotels/', views.hotel_list, name='hotel_list'),
+    path('hotels/add/', views.add_hotel, name='add_hotel'),
     path('hotel/<int:hotel_id>/', views.hotel_detail, name='hotel_detail'),
     path('book/<int:room_id>/', views.book_room, name='book_room'),
     path('booking/confirmation/<int:booking_id>/', views.booking_confirmation, name='booking_confirmation'),

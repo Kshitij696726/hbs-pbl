@@ -42,7 +42,7 @@
         }
         .search-bar {
             max-width: 400px;
-            margin: 20px auto 40px auto;
+            margin: 20px auto 20px auto;
         }
         .hotel-container {
             display: flex;
@@ -118,9 +118,12 @@
             background-color: #5a3680;
             text-decoration: none;
             color: #fff;
+            transform: scale(1.05);
         }
         .container {
             max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
         footer {
             text-align: center;
@@ -130,6 +133,11 @@
             background-color: rgba(0,0,0,0.2);
             margin-top: 40px;
             user-select: none;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
         }
         @media (max-width: 768px) {
             .hotel-card {
@@ -149,14 +157,27 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a href="{% url 'booking:hotel_list' %}" class="nav-link">Home</a></li>
+
+                
                 {% if user.is_authenticated %}
                 <li class="nav-item"><a href="{% url 'booking:my_bookings' %}" class="nav-link">My Bookings</a></li>
                 {% endif %}
                 <li class="nav-item"><a href="{% url 'booking:contact_us' %}" class="nav-link">Contact Us</a></li>
+
+                <!-- 🔒 Show logout only if logged in -->
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <form method="POST" action="{% url 'logout' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-light btn-sm ms-3">Logout</button>
+                    </form>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>
 </nav>
+
 <div class="container py-4">
     <h1 class="mb-4 text-center">Available Hotels</h1>
     <form method="get" class="search-bar mb-4" role="search" aria-label="Hotel keyword search">
@@ -181,6 +202,7 @@
         {% endfor %}
     </div>
 </div>
+
 <footer>
     &copy; {{ now.year }} Hotel Booking. All rights reserved.
 </footer>
